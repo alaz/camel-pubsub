@@ -1,3 +1,3 @@
 object Bus {
-  val Endpoint = "seda:bus?multipleConsumers=true&purgeWhenStopping=true"
+  val Endpoint = "disruptor:bus?multipleConsumers=true"
 }
