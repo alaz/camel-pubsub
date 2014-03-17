@@ -14,7 +14,7 @@ that may cost you a lot.
 ```
 
 `multipleConsumers` implementation makes use of `multicast` and `parallelProcessing` under the hood
-and this combination utilized the default thread pool to dispatch exchanges to the underlying endpoints.
+and this combination utilizes the default thread pool to dispatch exchanges to the underlying endpoints.
 The problem here is that **every subscriber** becomes parallel implicitly. You didn't expect it, but
 there will be several threads running `Processor1` concurrently and several threads running `Processor2`
 concurrently as well.
@@ -36,12 +36,14 @@ $ sbt
 
 ## Bug report
 
-The bug report is [here](https://issues.apache.org/jira/browse/CAMEL-7302) Camel team will not fix it, this
-is the behavior by design.
+The bug report is [here](https://issues.apache.org/jira/browse/CAMEL-7302).
+
+The Camel team will not fix it,
+they claimed this behavior is "as designed".
 
 # Workarounds
 
-## threads(1)
+## threads(1) – NO
 
 You would probably want to make execution sequential:
 
@@ -53,7 +55,7 @@ You would probably want to make execution sequential:
 
 This will not help, b/c this whole fragment gets called concurrently.
 
-## direct:seq
+## direct:seq – NO
 
 ```
   from("seda:queue?multipleConsumers=true")
@@ -65,7 +67,7 @@ This will not help, b/c this whole fragment gets called concurrently.
 
 This will make execution sequential, but it cannot guarantee the order of exchanges is intact.
 
-## Disruptor
+## Disruptor – YES
 
 What seems the real fix is using [Disruptor](https://camel.apache.org/disruptor.html) component, see the
 [PR](https://github.com/alaz/camel-pubsub/pull/1) for required changes. Fetch the branch and try running it.
