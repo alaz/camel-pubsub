@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+  <bean id="generator" class="Gen"/>
+  <bean id="reader1" class="ReaderA"/>
+  <bean id="reader2" class="ReaderB"/>
+
+  <camelContext xmlns="http://camel.apache.org/schema/spring" id="routes">
+    <routeBuilder ref="generator"/>
+    <routeBuilder ref="reader1"/>
+    <routeBuilder ref="reader2"/>
+  </camelContext>
+
+</beans>
