@@ -7,12 +7,16 @@
          http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
   <bean id="generator" class="Gen"/>
+
+  <!-- couple of subscribers reading from the bus -->
   <bean id="reader1" class="ReaderA"/>
   <bean id="reader2" class="ReaderB"/>
 
   <camelContext xmlns="http://camel.apache.org/schema/spring" id="routes">
     <routeBuilder ref="generator"/>
     <routeBuilder ref="reader1"/>
+    <!-- comment out the following route to test the only subscriber -->
+    <!-- there would be no problems if the subscriber was the only one -->
     <routeBuilder ref="reader2"/>
   </camelContext>
 
